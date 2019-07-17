@@ -15,9 +15,12 @@ OLED_CLASS_OBJ display(OLED_ADDRESS, OLED_SDA, OLED_SCL);
 #define WIFI_PASSWORD "c1044697adb2"
 
 // MQTT server
-const char *mqtt_server = "iot.eclipse.org";
+//const char *mqtt_server = "iot.eclipse.org";
 //const char *mqtt_server = "test.mosquitto.org";
 //const char *mqtt_server = "broker.mqtt-dashboard.com";
+const char *mqtt_server = "desplega.com";
+//const char *mqtt_server = "mqtt.desplega.com";
+
 WiFiClient espClient;
 PubSubClient client(espClient);
 long lastMsg = 0;
@@ -64,10 +67,10 @@ void reconnect()
             Serial.println("connected");
             // Once connected, publish an announcement...
 #ifdef SENDER
-            client.publish("outTopic", "Hi!");
+            client.publish("test", "Hi!");
 #else
             // ... and resubscribe
-            client.subscribe("outTopic"); // Initially it was subscribed to "inTopic", but there was no activity
+            client.subscribe("test");
 #endif
         }
         else
@@ -260,7 +263,7 @@ void loop(void)
         snprintf(msg, 50, "Hi! #%ld", (long int)value);
         Serial.print("Publish message: ");
         Serial.println(msg);
-        client.publish("outTopic", msg);
+        client.publish("test", msg);
 
         // Toggle BUILTIN led
         if (value % 2 == 0)
