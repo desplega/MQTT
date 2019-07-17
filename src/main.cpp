@@ -5,7 +5,7 @@
 
 #include "board_def.h"
 
-//#define SENDER
+#define SENDER
 
 // OLED config
 OLED_CLASS_OBJ display(OLED_ADDRESS, OLED_SDA, OLED_SCL);
@@ -47,7 +47,7 @@ void callback(char *topic, byte *payload, unsigned int length)
 
     // Show message in OLED
     display.clear();
-    display.drawString(display.getWidth() / 2, display.getHeight() / 2 - 24, "Msg[" + String(topic) + "]");
+    display.drawString(display.getWidth() / 2, display.getHeight() / 2 - 24, "Rcv[" + String(topic) + "]");
     display.drawString(display.getWidth() / 2, display.getHeight() / 2 + 8, String(str));
     display.display();
 }
@@ -264,6 +264,12 @@ void loop(void)
         Serial.print("Publish message: ");
         Serial.println(msg);
         client.publish("test", msg);
+
+        // Show message in OLED
+        display.clear();
+        display.drawString(display.getWidth() / 2, display.getHeight() / 2 - 24, "Send[test]");
+        display.drawString(display.getWidth() / 2, display.getHeight() / 2 + 8, String(msg));
+        display.display();
 
         // Toggle BUILTIN led
         if (value % 2 == 0)
